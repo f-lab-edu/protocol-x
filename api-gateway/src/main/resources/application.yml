@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  cloud:
+    gateway:
+      routes:
+        - id: user-auth-service
+          uri: ${USER_AUTH_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/auth/**, /users/**
+          filters:
+            - RewritePath=/(?<segment>.*), /$\{segment}
+        - id: order-management-service
+          uri: ${ORDER_MANAGEMENT_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/orders/**
+          filters:
+            - RewritePath=/(?<segment>.*), /$\{segment}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    reactor.netty.http.client: INFO
+    com.exchange.protocolx: DEBUG 
