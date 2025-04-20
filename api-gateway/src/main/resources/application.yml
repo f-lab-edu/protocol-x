@@ -28,4 +28,4 @@ logging:
   level:
     org.springframework.cloud.gateway: INFO
     reactor.netty.http.client: INFO
-    com.exchange.protocolx: DEBUG 
+    com.exchange.protocolx: DEBUG

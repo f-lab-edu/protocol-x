@@ -35,4 +35,4 @@ matching-engine:
 
 logging:
   level:
-    com.exchange.protocolx: DEBUG 
+    com.exchange.protocolx: DEBUG
