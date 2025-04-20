@@ -1,0 +1,38 @@
+server:
+  port: 8082
+  tomcat:
+    threads:
+      max: 1
+
+spring:
+  application:
+    name: order-management-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/protocolx_orders}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: true
+  threads:
+    virtual:
+      enabled: true
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: 6379
+
+matching-engine:
+  grpc:
+    host: ${MATCHING_ENGINE_HOST:localhost}
+    port: 9090
+
+logging:
+  level:
+    com.exchange.protocolx: DEBUG 
