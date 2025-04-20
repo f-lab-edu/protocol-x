@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine as build
+FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /workspace/app
 
 ARG MODULE
@@ -21,5 +21,10 @@ VOLUME /tmp
 
 ARG MODULE
 COPY --from=build /workspace/app/${MODULE}/build/libs/*.jar app.jar
+
+# non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN chown -R appuser:appgroup /app.jar
+USER appuser
 
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-XX:+UseParallelGC", "-jar", "/app.jar"] 
