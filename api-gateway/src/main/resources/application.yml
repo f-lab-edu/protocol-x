@@ -16,13 +16,13 @@ spring:
           predicates:
             - Path=/auth/**, /users/**
           filters:
-            - RewritePath=/(?<segment>.*), /$\{segment}
+            - RewritePath=/(?<segment>.*), /${segment}
         - id: order-management-service
           uri: ${ORDER_MANAGEMENT_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/orders/**
           filters:
-            - RewritePath=/(?<segment>.*), /$\{segment}
+            - RewritePath=/(?<segment>.*), /${segment}
 
 logging:
   level:
