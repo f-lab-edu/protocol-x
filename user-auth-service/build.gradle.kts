@@ -15,8 +15,6 @@ dependencies {
     
     // Spring Security
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.security:spring-security-oauth2-jose")
-    implementation("org.springframework.security:spring-security-oauth2-resource-server")
     
     // JWT
     implementation("com.auth0:java-jwt:4.5.0")
