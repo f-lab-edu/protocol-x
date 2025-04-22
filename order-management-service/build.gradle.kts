@@ -6,12 +6,10 @@ plugins {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":common-data-jpa"))
     
     // Web
     implementation("org.springframework.boot:spring-boot-starter-web")
-    
-    // JPA
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     
     // DB
     runtimeOnly("com.mysql:mysql-connector-j")
