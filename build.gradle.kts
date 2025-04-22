@@ -33,6 +33,9 @@ subprojects {
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.1")
         }
+        dependencies {
+            dependency("com.auth0:java-jwt:4.5.0")
+        }
     }
 
     dependencies {
