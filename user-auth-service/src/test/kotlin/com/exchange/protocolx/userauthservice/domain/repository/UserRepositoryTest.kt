@@ -1,7 +1,6 @@
 package com.exchange.protocolx.userauthservice.domain.repository
 
 import com.exchange.protocolx.common.jpa.test.config.ContainerDataJpaTest
-import com.exchange.protocolx.common.jpa.test.config.MySqlTestContainers
 import com.exchange.protocolx.userauthservice.domain.model.User
 import com.exchange.protocolx.userauthservice.domain.model.UserStatus
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 @ContainerDataJpaTest
 class UserRepositoryTest @Autowired constructor(
     private val userRepository: UserRepository
-) : MySqlTestContainers {
+) {
 
     @Test
     @DisplayName("사용자를 저장하고 ID로 조회할 수 있어야 한다")

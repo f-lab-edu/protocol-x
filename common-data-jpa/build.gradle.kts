@@ -5,12 +5,11 @@ plugins {
 
 dependencies {
     api("org.springframework.boot:spring-boot-starter-data-jpa")
-    
-    // Test
-    testFixturesImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testFixturesImplementation("org.testcontainers:mysql")
-    testFixturesImplementation("org.testcontainers:junit-jupiter")
+
     testFixturesImplementation("org.springframework.boot:spring-boot-starter-test")
+    testFixturesApi("org.springframework.boot:spring-boot-testcontainers")
+    testFixturesApi("org.testcontainers:mysql")
+    testFixturesApi("org.testcontainers:junit-jupiter")
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
