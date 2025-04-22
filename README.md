@@ -19,7 +19,7 @@ protocol-x/
 docker-compose up -d
 ```
 
-#### 실핼 중 재실행
+#### 실행 중 재실행
 
 ```
 docker-compose down -v
