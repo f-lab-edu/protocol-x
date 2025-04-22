@@ -48,7 +48,7 @@ class User private constructor(
     @PostPersist
     private fun publishCreatedEvent() {
         registerEvent(UserCreated(
-            userId = getId() ?: throw IllegalStateException("User ID is null"),
+            userId = id ?: throw IllegalStateException("User ID cannot be null after persist"),
             email = email.value
         ))
     }
@@ -68,7 +68,7 @@ class User private constructor(
         status = UserStatus.ACTIVE
         
         registerEvent(UserStatusChanged(
-            userId = getId() ?: throw IllegalStateException("User ID is null"),
+            userId = id ?: throw IllegalStateException("User ID cannot be null"),
             oldStatus = oldStatus,
             newStatus = status
         ))
@@ -85,7 +85,7 @@ class User private constructor(
         status = UserStatus.SUSPENDED
         
         registerEvent(UserStatusChanged(
-            userId = getId() ?: throw IllegalStateException("User ID is null"),
+            userId = id ?: throw IllegalStateException("User ID cannot be null"),
             oldStatus = oldStatus,
             newStatus = status
         ))
@@ -102,7 +102,7 @@ class User private constructor(
         status = UserStatus.INACTIVE
         
         registerEvent(UserStatusChanged(
-            userId = getId() ?: throw IllegalStateException("User ID is null"),
+            userId = id ?: throw IllegalStateException("User ID cannot be null"),
             oldStatus = oldStatus,
             newStatus = status
         ))
@@ -127,7 +127,7 @@ class User private constructor(
         role = newRole
         
         registerEvent(UserRoleChanged(
-            userId = getId() ?: throw IllegalStateException("User ID is null"),
+            userId = id ?: throw IllegalStateException("User ID cannot be null"),
             oldRole = oldRole,
             newRole = newRole
         ))

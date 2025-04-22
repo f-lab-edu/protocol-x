@@ -27,7 +27,7 @@ abstract class AggregateRootEntity<T : AggregateRootEntity<T>> : AbstractAggrega
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Long? = null
+    val id: Long? = null
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -38,8 +38,6 @@ abstract class AggregateRootEntity<T : AggregateRootEntity<T>> : AbstractAggrega
     @Column(nullable = false)
     override var updatedAt: LocalDateTime = LocalDateTime.now()
         protected set
-
-    fun getId(): Long? = id
 
     fun getEvents(): List<Any> {
         return domainEvents().toList()

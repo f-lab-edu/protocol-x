@@ -29,11 +29,11 @@ class UserRepositoryTest @Autowired constructor(
         // when
         val savedUser = userRepository.saveAndFlush(user)
 
-        val foundUser = userRepository.findById(savedUser.getId()!!).orElse(null)
+        val foundUser = userRepository.findById(savedUser.id!!).orElse(null)
 
         // then
         assertNotNull(foundUser)
-        assertEquals(savedUser.getId(), foundUser.getId())
+        assertEquals(savedUser.id, foundUser.id)
         assertEquals("test@example.com", foundUser.getEmail())
     }
 
