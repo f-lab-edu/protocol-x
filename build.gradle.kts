@@ -16,40 +16,17 @@ allprojects {
 }
 
 subprojects {
-    apply {
-        plugin("org.jetbrains.kotlin.jvm")
-        plugin("org.jetbrains.kotlin.plugin.spring")
-        plugin("org.springframework.boot")
-        plugin("io.spring.dependency-management")
-    }
-    
+    apply(plugin = "org.jetbrains.kotlin.jvm")
     configure<JavaPluginExtension> {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(21))
         }
     }
     
-    configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.1")
-        }
-    }
-
     dependencies {
-        val implementation by configurations
-        val testImplementation by configurations
-        val testRuntimeOnly by configurations
-        
-        implementation("org.springframework.boot:spring-boot-starter")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-        implementation("org.springframework.boot:spring-boot-starter-validation")
-        implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-        
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        "implementation"("io.github.microutils:kotlin-logging-jvm:3.0.5")
+        "implementation"("org.jetbrains.kotlin:kotlin-reflect")
+        "implementation"("com.fasterxml.jackson.module:jackson-module-kotlin")
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
