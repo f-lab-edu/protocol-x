@@ -6,7 +6,6 @@ ProtocolX는 암호화폐 거래소 플랫폼을 개발하는 프로젝트입니
 
 ```
 protocol-x/
-├── common/                     # 공통 라이브러리 및 유틸리티
 ├── user-auth-service/          # 사용자 인증 서비스
 ├── api-gateway/                # API 게이트웨이
 ├── order-management-service/   # 주문 관리 서비스

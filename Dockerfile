@@ -12,7 +12,6 @@ COPY ${MODULE}/build.gradle.kts ${MODULE}/
 RUN chmod +x ./gradlew && ./gradlew ${MODULE}:dependencies --no-daemon
 
 COPY ${MODULE} ${MODULE}
-COPY common common
 
 RUN ./gradlew ${MODULE}:build -x test --no-daemon
 
