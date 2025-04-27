@@ -27,5 +27,10 @@ jwt:
 
 logging:
   level:
-    com.exchange.protocolx: DEBUG
-    org.springframework.security: INFO 
+    com.exchange.protocolx: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info 

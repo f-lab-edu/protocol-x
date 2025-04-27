@@ -32,4 +32,10 @@ matching-engine:
 
 logging:
   level:
-    com.exchange.protocolx: DEBUG
+    com.exchange.protocolx: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

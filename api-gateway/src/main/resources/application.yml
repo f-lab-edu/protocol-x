@@ -4,10 +4,6 @@ server:
 spring:
   application:
     name: api-gateway
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
   cloud:
     gateway:
       routes:
@@ -26,6 +22,10 @@ spring:
 
 logging:
   level:
-    org.springframework.cloud.gateway: INFO
-    reactor.netty.http.client: INFO
-    com.exchange.protocolx: DEBUG
+    com.exchange.protocolx: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
