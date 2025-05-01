@@ -26,4 +26,4 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN chown -R appuser:appgroup /app.jar
 USER appuser
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-XX:+UseParallelGC", "-jar", "/app.jar"] 
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
