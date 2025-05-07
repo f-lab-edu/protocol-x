@@ -14,13 +14,20 @@ protocol-x/
 
 ### 설치 및 실행
 
-```
-docker-compose up -d
+#### 로컬 환경
+
+```bash
+docker-compose -f docker-compose.local.yml up -d
 ```
 
-#### 실핼 중 재실행
+#### 개발 환경
 
+```bash
+docker-compose -f docker-compose.dev.yml up -d
 ```
-docker-compose down -v
-docker-compose up -d
+
+### 로컬 환경 실행 중 재실행
+
+```bash
+docker-compose -f docker-compose.local.yml down -v && docker-compose -f docker-compose.local.yml up -d --build
 ```
