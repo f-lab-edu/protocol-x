@@ -6,6 +6,7 @@ spring:
     name: api-gateway
   cloud:
     gateway:
+      mvc:
       routes:
         - id: user-auth-service
           uri: ${USER_AUTH_SERVICE_URL:http://localhost:8081}
