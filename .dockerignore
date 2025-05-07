@@ -1,19 +1,61 @@
-.git
-.gradle
-**/.gradle
+# Git related files
+.git/
+.gitignore
+.gitattributes
+.gitmodules
+
+# Build system, IDE, and output files
+.gradle/
+**/.gradle/
+**/.idea/
+**/*.iml
+**/*.ipr
+**/*.iws
+.project
+.classpath
+.factorypath
+.settings/ # Assuming .settings is a directory
+.springBeans
+.sts4-cache/
+**/.vscode/
+**/nbproject/
+**/nbbuild/
+**/nbdist/
+**/.nb-gradle/
 **/build/
 !**/build/libs/*.jar
-.idea
-**/.idea
+**/out/
+**/bin/
+**/target/ # For Maven, if ever used
+**/dist/   # Common distribution folder
+**/.kotlin/
+.cursor/
+.apt_generated
+
+# OS-specific files
 .DS_Store
-**/node_modules
-**/target
-**/out
-**/bin
-**/.settings
-*.iml
-**/*.iml
-**/logs
-**/tmp
-.vscode
-**/.vscode 
+Thumbs.db
+
+# Node.js dependencies
+**/node_modules/
+
+# Log and temporary files
+**/logs/
+**/tmp/
+temp/
+*.log
+*.swp
+
+# Documentation and miscellaneous files
+HELP.md
+README.md # Consider if needed in the image; often not.
+
+# Environment files (sensitive)
+*.env
+.env.*
+!.env.example # Keep example files
+
+# Docker related files
+Dockerfile
+.dockerignore
+# docker-compose.yml # Uncomment if you have this file

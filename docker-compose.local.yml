@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: protocolx-mysql
+    container_name: mysql-local
     ports:
       - "3306:3306"
     environment:
@@ -11,8 +11,6 @@ services:
       MYSQL_DATABASE: protocolx
     volumes:
       - ./scripts/init-mysql.sql:/docker-entrypoint-initdb.d/init-mysql.sql
-    networks:
-      - protocolx-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1234"]
       interval: 10s
@@ -21,11 +19,9 @@ services:
 
   redis:
     image: redis:7
-    container_name: protocolx-redis
+    container_name: redis-local
     ports:
       - "6379:6379"
-    networks:
-      - protocolx-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -35,11 +31,11 @@ services:
   user-auth-service:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile.local
       args:
         MODULE: user-auth-service
-    image: protocolx/user-auth-service:latest
-    container_name: protocolx-user-auth-service
+    image: protocolx/user-auth-service:local
+    container_name: user-auth-service-local
     ports:
       - "8081:8081"
     depends_on:
@@ -49,17 +45,15 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/protocolx_users
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=1234
-    networks:
-      - protocolx-network
 
   order-management-service:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile.local
       args:
         MODULE: order-management-service
-    image: protocolx/order-management-service:latest
-    container_name: protocolx-order-management-service
+    image: protocolx/order-management-service:local
+    container_name: order-management-service-local
     ports:
       - "8082:8082"
     depends_on:
@@ -72,47 +66,33 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=1234
       - SPRING_REDIS_HOST=redis
-      - MATCHING_ENGINE_HOST=matching-engine
-    networks:
-      - protocolx-network
+      - SPRING_REDIS_PORT=6379
 
   api-gateway:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile.local
       args:
         MODULE: api-gateway
-    image: protocolx/api-gateway:latest
-    container_name: protocolx-api-gateway
+    image: protocolx/api-gateway:local
+    container_name: api-gateway-local
     ports:
       - "8080:8080"
     depends_on:
       - user-auth-service
       - order-management-service
-    environment:
-      - USER_AUTH_SERVICE_URL=http://user-auth-service:8081
-      - ORDER_MANAGEMENT_SERVICE_URL=http://order-management-service:8082
-    networks:
-      - protocolx-network
+      - matching-engine
 
   matching-engine:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile.local
       args:
         MODULE: matching-engine
-    image: protocolx/matching-engine:latest
-    container_name: protocolx-matching-engine
+    image: protocolx/matching-engine:local
+    container_name: matching-engine-local
     ports:
-      - "9090:9090"
+      - "8083:8083"
     depends_on:
       redis:
         condition: service_healthy
-    environment:
-      - SPRING_REDIS_HOST=redis
-    networks:
-      - protocolx-network
-
-networks:
-  protocolx-network:
-    driver: bridge
