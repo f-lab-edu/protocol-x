@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-dev
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: protocolx
+    volumes:
+      - ./scripts/init-mysql.sql:/docker-entrypoint-initdb.d/init-mysql.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7
+    container_name: redis-dev
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-auth-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+      args:
+        MODULE: user-auth-service
+    image: protocolx/user-auth-service:dev
+    container_name: user-auth-service-dev
+    ports:
+      - "8081:8081"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/protocolx_users
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1234
+
+  order-management-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+      args:
+        MODULE: order-management-service
+    image: protocolx/order-management-service:dev
+    container_name: order-management-service-dev
+    ports:
+      - "8082:8082"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/protocolx_orders
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+      args:
+        MODULE: api-gateway
+    image: protocolx/api-gateway:dev
+    container_name: api-gateway-dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-auth-service
+      - order-management-service
+      - matching-engine
+
+  matching-engine:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+      args:
+        MODULE: matching-engine
+    image: protocolx/matching-engine:dev
+    container_name: matching-engine-dev
+    ports:
+      - "8083:8083"
+    depends_on:
+      redis:
+        condition: service_healthy

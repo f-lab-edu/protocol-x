@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: user-auth-service
+            uri: ${USER_AUTH_SERVICE_URL:http://localhost:8081}
+            predicates:
+              - Path=/auth/**, /users/**
+            filters:
+              - RewritePath=/(auth|users)/(?<segment>.*), /${segment}
+          - id: order-management-service
+            uri: ${ORDER_MANAGEMENT_SERVICE_URL:http://localhost:8082}
+            predicates:
+              - Path=/orders/**
+            filters:
+              - RewritePath=/orders/(?<segment>.*), /${segment}
+
+logging:
+  level:
+    com.exchange.protocolx: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

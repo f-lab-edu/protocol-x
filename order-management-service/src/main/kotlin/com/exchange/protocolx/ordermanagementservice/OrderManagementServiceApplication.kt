@@ -1,11 +1,11 @@
-package com.exchange.protocolx
+package com.exchange.protocolx.ordermanagementservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ProtocolXApplication
+class OrderManagementServiceApplication
 
 fun main(args: Array<String>) {
-    runApplication<ProtocolXApplication>(*args)
-}
+    runApplication<OrderManagementServiceApplication>(*args)
+} 
